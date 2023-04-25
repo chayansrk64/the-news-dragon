@@ -1,34 +1,13 @@
-import React from 'react';
-import {useState, useEffect} from 'react'
-import { Card, Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React from "react";
 import first from '../../../assets/1.png'
 import second from '../../../assets/2.png'
 import third from '../../../assets/3.png'
-const LeftNav = () => {
+import { Card, Col, Row } from "react-bootstrap";
 
-    const [categories, setCategories] = useState([])
-
-    useEffect(()=> {
-        fetch(`http://localhost:5000/categories`)
-        .then(res => res.json())
-        .then(data =>setCategories(data))
-        .catch(error => console.error(error))
-    }, [])
-
-    return (
-        <div>
-            <h4>All Category</h4>
-            <div className='ps-4'>
-            {
-                categories.map(category => <p
-                    key={category.id}
-                >
-                   <Link to={`/category/${category.id}`} className='text-secondary text-decoration-none'>{category.name}</Link>
-                </p> )
-            }
-            </div>
-            <Row xs={1}  className="g-4 mt-4">
+const EditorsInsights = () => {
+  return (
+    <div>
+      <Row xs={1} md={2} lg={3} className="g-4 mt-4">
           <Col>
             <Card>
               <Card.Img variant="top" src={first} />
@@ -69,8 +48,8 @@ const LeftNav = () => {
             </Card>
           </Col>
       </Row>
-        </div>
-    );
+    </div>
+  );
 };
 
-export default LeftNav;
+export default EditorsInsights;
