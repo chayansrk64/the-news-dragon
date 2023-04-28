@@ -5,7 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from '../../../providers/AuthProvider';
 
 const NavigationBar = () => {
-    
+
     const {user, logOut} = useContext(AuthContext)
 
     const handleLogOut = () => {
@@ -22,10 +22,9 @@ const NavigationBar = () => {
                     <Nav className="mx-auto">
                         
                             <Link to={'/category/0'}>Home</Link>
-                       
-                        <Nav.Link href="#pricing">About</Nav.Link>
-                        <Nav.Link href="#pricing">Career</Nav.Link>
-                        
+                            <Link className='mx-3' to={'#'}>About</Link>
+                            <Link to={'#'}>Contact</Link>
+
                     </Nav>
                     <Nav>
                         { user && <Nav.Link href="#deets"> <FaUserCircle style={{fontSize:"2rem"}}></FaUserCircle> </Nav.Link>}
