@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Button, Container, Form  } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
  
 const Login = () => {
+
+  const {signInUser} = useContext(AuthContext);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignIn = event => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    
+    signInUser(email, password)
+    .then(result => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      form.reset();
+      setSuccess('User logged in Successfuly!')
+      navigate('/category/0')
+    })
+    .catch(error => {
+      console.log(error);
+      setError(error.message)
+    })
+    
+  }
+
   return (
     <Container className="w-25 mx-auto">
         <h2 className="text-center mb-4">Please LogIn</h2>
-         <Form>
+         <Form onSubmit={handleSignIn}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" name="email" placeholder="Enter email" required />
@@ -24,12 +52,13 @@ const Login = () => {
           Don't have an Account? <Link to='/register'>Register</Link>
         </Form.Text> <br />
         <Form.Text className="text-danger">
-          We'll never share your email with anyone else.
+        <p className="text-center">{error}</p>
         </Form.Text> <br />
       <Form.Text className="text-success">
-          We'll never share your email with anyone else.
+      <p className="text-center">{success}</p>
         </Form.Text>
     </Form>
+   
     </Container>
   );
 };

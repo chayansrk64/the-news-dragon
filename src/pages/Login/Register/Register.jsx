@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Container, Form  } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { AuthContext } from '../../../providers/AuthProvider';
  
 const Register = () => {
+    const {createUser} = useContext(AuthContext);
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+
+    const handleRegister = event => { 
+      event.preventDefault();
+      const form = event.target;
+      const name = form.name.value;
+      const photo = form.photo.value;
+      const email = form.email.value;
+      const password = form.password.value;
+      // console.log(name, photo, email, password); 
+
+      createUser(email, password)
+      .then(result => {
+        const createdUser = result.user;
+        console.log(createdUser);
+        form.reset();
+        setSuccess('User created Successfully!!!')
+      })
+      .catch(error => {
+        console.log(error);
+        setError(error.message);
+      })
+    }
     return (
         <Container className="w-25 mx-auto">
         <h2 className="text-center mb-4">Please Register</h2>
-         <Form>
+         <Form onSubmit={handleRegister}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Name</Form.Label>
         <Form.Control type="text" name="name" placeholder="Enter Name" required />
@@ -35,10 +61,10 @@ const Register = () => {
          Already have an Account? <Link to='/login'>Login</Link>
         </Form.Text> <br />
         <Form.Text className="text-danger">
-          We'll never share your email with anyone else.
+          <p>{error}</p>
         </Form.Text> <br />
       <Form.Text className="text-success">
-          We'll never share your email with anyone else.
+           <p>{success}</p>
         </Form.Text>
     </Form>
     </Container>
